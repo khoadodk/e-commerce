@@ -36,6 +36,17 @@ export const createUserProfileDocument = async (userAuth, additionalData) => {
     return userRef;
 };
 
+//Store collections into firestore database
+export const addCollectionAndDocuments = (collectionKey, objectsToAdd) => {
+    const collectionRef = firestore.collection(collectionKey);
+    const batch = firestore.batch();
+    objectsToAdd.forEach(obj => {
+        const newDocRef = collectionRef.doc();
+        batch.set(newDocRef, obj)
+    })
+    batch.commit()
+}
+
 // Set up Google OAuth
 export const auth = firebase.auth();
 export const firestore = firebase.firestore();
